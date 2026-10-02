@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id" manifest="cache.manifest">
+<html lang="id" manifest="offline.manifest">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Slopkit Relapse</title>
+  <title>Caching Slopkit Relapse</title>
   <link rel="stylesheet" href="apache.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
 
     <div class="fw-status-card">
       <span class="status-dot status-online" id="statusDot"></span>
-      <span>Firmware <b id="fwText">detecting</b></span>
+      <span>Status Cache <b id="fwText">Offline Storage</b></span>
       <span class="fw-badge supported" id="fwBadge">CACHING</span>
     </div>
 
@@ -65,11 +65,11 @@
         var appCache = window.applicationCache;
 
         appCache.addEventListener('checking', function() {
-            setMsg("Memeriksa File Cache...", "");
+            setMsg("Memeriksa File Cache Slopkit...", "");
         }, false);
 
         appCache.addEventListener('downloading', function() {
-            setMsg("Mulai Mengunduh File Offline...", "");
+            setMsg("Mengunduh File Offline...", "");
         }, false);
 
         appCache.addEventListener('progress', function(e) {
@@ -82,11 +82,10 @@
         }, false);
 
         appCache.addEventListener('cached', function() {
-            setMsg("Cache Berhasil Disimpan!...", "success");
+            setMsg("Cache Berhasil Disimpan! Mengalihkan...", "success");
             setTimeout(function() {
-                // Kembalikan ke file HTML utama kamu
                 window.location.replace("index.html");
-            }, 1000);
+            }, 1500);
         }, false);
 
         appCache.addEventListener('noupdate', function() {
