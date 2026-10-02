@@ -183,7 +183,6 @@ h2 {
   transition: width 0.3s ease, background 0.3s ease;
 }
 
-/* Status Warna Progress Bar */
 .progress-bar.pbar-low {
   background: linear-gradient(90deg, #ff6b6b, #d90404); /* Merah (< 30%) */
 }
@@ -202,7 +201,7 @@ h2 {
 }
 
 .msg-lapse {
-  color: #defe03;
+  color: #b003fe;
   font-weight: 600;
   animation: pulse 1.5s infinite;
 }
