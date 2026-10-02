@@ -21,11 +21,10 @@
       <img src="logo.png" alt="logo mgstore" class="logo">
     </div>
 
-    <!-- Status Card + Progress Bar Container -->
     <div class="status-card" style="flex-direction: column; gap: 12px;">
       <div id="msgs">Memulai Instalasi Cache...</div>     
-      <div style="width: 100%; background-color: #1e293b; border-radius: 10px; overflow: hidden; height: 12px;">
-        <div id="pbar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #ff6b6b, #d90404); transition: width 0.3s ease, background 0.3s ease;"></div>
+      <div class="progress-track">
+        <div id="pbar" class="progress-bar pbar-low"></div>
       </div>
     </div>
 
@@ -77,13 +76,13 @@ function DLProgress(e) {
     if (bar) {
         bar.style.width = Percent + "%";
         
-        // Logika perubahan warna berdasarkan persentase
+        bar.className = "progress-bar";
         if (Percent < 30) {
-            bar.style.background = 'linear-gradient(90deg, #ff6b6b, #d90404)'; // Merah
+            bar.classList.add("pbar-low");
         } else if (Percent < 70) {
-            bar.style.background = 'linear-gradient(90deg, #fceb00, #c4b000)'; // Kuning
+            bar.classList.add("pbar-mid");
         } else {
-            bar.style.background = 'linear-gradient(90deg, #e8fb01, #08e238)'; // Hijau (Warna asli)
+            bar.classList.add("pbar-high");
         }
     }
 }
@@ -93,7 +92,7 @@ function DisplayCacheProgress() {
     var bar = document.getElementById("pbar");
     if (bar) {
         bar.style.width = "100%";
-        bar.style.background = 'linear-gradient(90deg, #e8fb01, #08e238)'; // Pastikan berwarna hijau saat 100%
+        bar.className = "progress-bar pbar-success";
     }
     setTimeout(function() {
         window.location.href = "index.html";
@@ -109,7 +108,7 @@ if (window.applicationCache) {
         var bar = document.getElementById("pbar");
         if (bar) {
             bar.style.width = "100%";
-            bar.style.background = 'linear-gradient(90deg, #ff6b6b, #d90404)';
+            bar.className = "progress-bar pbar-error";
         }
     };
 }
@@ -141,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function() {
             fwText.className = "fw-text-unsupported";
         }
     } else {
-        fwText.innerHTML = "Bukan PS4";
+        fwText.innerHTML = "BUKAN PS4";
         statusDot.className = "status-dot status-offline";
         fwBadge.className = "fw-badge pc-mobile";
         fwBadge.innerText = "PC / MOBILE";
