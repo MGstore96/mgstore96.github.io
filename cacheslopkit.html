@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id" manifest="offline.manifest">
+<html lang="id" manifest="cache.manifest">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Caching Slopkit Relapse</title>
+  <title>Slopkit Relapse</title>
   <link rel="stylesheet" href="apache.css">
 </head>
 <body>
@@ -13,8 +13,8 @@
 
     <div class="fw-status-card">
       <span class="status-dot status-online" id="statusDot"></span>
-      <span>Status Cache <b id="fwText">Offline Storage</b></span>
-      <span class="fw-badge supported" id="fwBadge">CACHING</span>
+      <span>Firmware: <b id="fwText">Detecting...</b></span>
+       <span class="fw-badge" id="fwBadge">PS4</span>
     </div>
 
     <div class="logo-container">
@@ -22,7 +22,7 @@
     </div>
 
     <div class="status-card">
-      <div id="msgs">Menyiapkan Proses Caching... Mohon Tunggu</div>     
+      <div id="msgs">Memulai Instalasi Cache...</div>     
     </div>
 
     <div class="thanks-section">
@@ -47,64 +47,71 @@
   </div>
 
   <script>
-    function setMsg(htmlContent, type) {
-        var msgsElem = document.getElementById("msgs");
-        if (!msgsElem) return;
+history.replaceState(null, null, 'index.html');
+var histlength = history.length;
+history.go(-histlength);
+
+function DLProgress(e) {
+    var Percent = Math.round((e.loaded / e.total) * 100);
+    if (isNaN(Percent)) Percent = 0;
+    document.getElementById("msgs").innerHTML = "Menginstal Cache Offline...";
+    document.getElementById("progressBar").style.width = Percent + "%";
+    document.getElementById("progressText").innerHTML = Percent + "%";
+}
+
+function DisplayCacheProgress() {
+    document.getElementById("msgs").innerHTML = "Cache Berhasil Diinstal";
+    document.getElementById("progressBar").style.width = "100%";
+    document.getElementById("progressBar").style.background = "linear-gradient(90deg, #149187, #01ff61)";
+    document.getElementById("progressText").innerHTML = "100%";
+    window.location.reload();
+}
+
+if (window.applicationCache) {
+    window.applicationCache.addEventListener("progress", DLProgress, false);
+    window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
+    window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
+    window.applicationCache.onerror = function(e) { 
+        document.getElementById("msgs").innerHTML = "Kesalahan Saat Menginstal Cache! - Bersihkan dan Buka Kembali Browser Anda ..."; 
+        document.getElementById("progressBar").style.background = "linear-gradient(90deg, #cb2d3e, #ef473a)"; 
+        document.getElementById("progressText").innerHTML = "ERROR";
+    };
+}
+var uaFull = navigator.userAgent;
+var match = uaFull.match(/PlayStation 4[ /]([\d.]+)/i);
+var isPS4 = match !== null;
+var fwVersion = isPS4 ? match[1] : "Unknown";
+var fwNum = parseFloat(fwVersion);
+
+document.addEventListener("DOMContentLoaded", function() {
+    var fwText = document.getElementById("fwText");
+    var statusDot = document.getElementById("statusDot");
+    var fwBadge = document.getElementById("fwBadge");
+
+    if (isPS4) {
+        fwText.innerHTML = fwVersion;
+        var isSupported = (fwNum == 5.05 || fwNum == 5.07 || (fwNum >= 7.00 && fwNum <= 13.52));
         
-        msgsElem.className = "";
-        if (type === "success") {
-            msgsElem.classList.add("success");
-        } else if (type === "error") {
-            msgsElem.classList.add("error");
+        if (isSupported) {
+            statusDot.className = "status-dot status-online";
+            fwBadge.className = "fw-badge supported";
+            fwBadge.innerText = "SUPPORTED";
+            fwText.className = "fw-text-supported";
+        } else {
+            statusDot.className = "status-dot status-offline";
+            fwBadge.className = "fw-badge unsupported";
+            fwBadge.innerText = "UNSUPPORTED";
+            fwText.className = "fw-text-unsupported";
         }
-        msgsElem.innerHTML = htmlContent;
-    }
-
-    // Mendengarkan event ApplicationCache dari Browser PS4
-    if (window.applicationCache) {
-        var appCache = window.applicationCache;
-
-        appCache.addEventListener('checking', function() {
-            setMsg("Memeriksa File Cache Slopkit...", "");
-        }, false);
-
-        appCache.addEventListener('downloading', function() {
-            setMsg("Mengunduh File Offline...", "");
-        }, false);
-
-        appCache.addEventListener('progress', function(e) {
-            if (e.total) {
-                var percent = Math.round((e.loaded / e.total) * 100);
-                setMsg("Menyimpan Cache Offline: <b style='color:#38bdf8;'>" + percent + "%</b>", "");
-            } else {
-                setMsg("Proses Menyimpan File Offline...", "");
-            }
-        }, false);
-
-        appCache.addEventListener('cached', function() {
-            setMsg("Cache Berhasil Disimpan! Mengalihkan...", "success");
-            setTimeout(function() {
-                window.location.replace("index.html");
-            }, 1500);
-        }, false);
-
-        appCache.addEventListener('noupdate', function() {
-            setMsg("Cache Sudah Terbaru! Mengalihkan...", "success");
-            setTimeout(function() {
-                window.location.replace("index.html");
-            }, 1000);
-        }, false);
-
-        appCache.addEventListener('error', function() {
-            setMsg("Gagal Menyimpan Cache! Pastikan koneksi internet terhubung.", "error");
-        }, false);
-
-        appCache.addEventListener('obsolete', function() {
-            setMsg("File Manifest tidak ditemukan (Obsolete).", "error");
-        }, false);
     } else {
-        setMsg("Browser ini tidak mendukung Application Cache.", "error");
+        fwText.innerHTML = "Bukan PS4";
+        statusDot.className = "status-dot status-offline";
+        fwBadge.className = "fw-badge pc-mobile";
+        fwBadge.innerText = "PC / MOBILE";
+        fwText.className = "fw-text-unsupported";
     }
-  </script>
+});
+</script>
+
 </body>
 </html>
