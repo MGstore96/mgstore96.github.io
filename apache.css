@@ -1,0 +1,267 @@
+/* ==========================================================================
+   PCBN.CSS - Slopkit Relapse PS4 Host Theme
+   ========================================================================== */
+
+/* Reset & Basic Setup */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #0b0f19;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12) 0%, transparent 75%),
+    radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
+  color: #f1f5f9;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 15px;
+}
+
+/* Main Container */
+.container {
+  width: 100%;
+  max-width: 620px;
+  background: rgba(22, 30, 46, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgb(7, 229, 201);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5),
+              0 0 30px rgba(56, 189, 248, 0.05);
+  text-align: center;
+}
+
+/* Horizontal Rule */
+hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(10, 189, 224), transparent);
+  margin-bottom: 20px;
+}
+
+/* Main Heading */
+h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+}
+
+/* Firmware Status Card */
+.fw-status-card {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #0f172a;
+  border: 2px solid #00d2ff;
+  padding: 8px 18px;
+  border-radius: 30px;
+  margin-bottom: 24px;
+  font-size: 0.92rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #64748b;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.status-dot.status-online {
+  background-color: #10e610;
+  box-shadow: 0 0 10px #10e610;
+}
+
+.status-dot.status-offline {
+  background-color: #e51d08;
+  box-shadow: 0 0 10px #e51d08;
+}
+
+/* Base Firmware Badge */
+.fw-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  background-color: #334155;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+/* Status Warna Dynamic Badge (Dikelola via CSS) */
+.fw-badge.supported {
+  background-color: #10e610;
+  color: #000000;
+}
+
+.fw-badge.unsupported {
+  background-color: #e51d08;
+  color: #ffffff;
+}
+
+.fw-badge.pc-mobile {
+  background-color: #cc1010;
+  color: #ffffff;
+}
+
+/* Status Warna Teks Firmware (Dikelola via CSS) */
+#fwText.fw-text-supported {
+  color: #10e610;
+}
+
+#fwText.fw-text-unsupported {
+  color: #ff0000;
+}
+
+/* Logo Section */
+.logo-container {
+  margin: 15px 0 25px 0;
+}
+
+.logo {
+  max-width: 140px;
+  height: auto;
+  border-radius: 16px;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.4));
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 12px 20px rgba(56, 189, 248, 0.3));
+}
+
+/* Exploitation Status Message Card */
+.status-card {
+  background: #0f172a;
+  border: 2px solid #00d2ff;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 28px;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+#msgs {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #38bdf8;
+  line-height: 1.5;
+  transition: color 0.3s ease;
+}
+
+#msgs.success {
+  color: #4ade80 !important;
+  font-weight: 600;
+}
+
+#msgs.error {
+  color: #ff0000 !important;
+  font-weight: 600;
+}
+
+/* Specific Exploit Message Styles */
+.msg-lapse {
+  color: #def44a;
+  font-weight: 600;
+  animation: pulse 1.5s infinite;
+}
+
+.msg-poops {
+  color: #0b8cf5;
+  font-weight: 600;
+  animation: pulse 1.5s infinite;
+}
+
+.msg-relapse {
+  color: #38f840;
+  font-weight: 600;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Credits Section */
+.thanks-section {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 22px;
+}
+
+.thanks-section h3 {
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #ff0000;
+  margin-bottom: 16px;
+}
+
+.credit-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.credit-item {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid #334155;
+  color: #f9f9fa;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.credit-item:hover {
+  background: #38bdf8;
+  color: #0f172a;
+  border-color: #38bdf8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(56, 189, 248, 0.3);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .container {
+    padding: 20px 16px;
+  }
+  
+  h2 {
+    font-size: 1.4rem;
+  }
+  
+  .fw-status-card {
+    flex-wrap: wrap;
+    padding: 8px 12px;
+  }
+  
+  .logo {
+    max-width: 110px;
+  }
+}
