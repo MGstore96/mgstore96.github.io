@@ -154,7 +154,7 @@ function updateFWStatus() {
             fwText.className = "fw-text-unsupported";
         }
     } else {
-        fwText.innerHTML = "Bukan PS4";
+        fwText.innerHTML = "BUKAN PS4";
         statusDot.className = "status-dot status-offline";
         fwBadge.className = "fw-badge pc-mobile";
         fwBadge.innerText = "PC / MOBILE";
@@ -192,7 +192,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Panggil fungsi loadExploit() jika cache sudah tersimpan
     loadExploit();
 });
 </script>
