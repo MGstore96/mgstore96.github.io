@@ -12,8 +12,8 @@
     <h2>Slopkit Relapse</h2>
 
     <div class="fw-status-card">
-      <span class="status-dot status-online" id="statusDot"></span>
-      <span>Firmware: <b id="fwText">Detecting...</b></span>
+      <span class="status-dot" id="statusDot"></span>
+      <span>Firmware <b id="fwText">detecting </b></span>
       <span class="fw-badge" id="fwBadge">PS4</span>
     </div>
 
@@ -21,7 +21,7 @@
       <img src="logo.png" alt="logo mgstore" class="logo">
     </div>
 
-    <div class="status-card" style="flex-direction: column; gap: 12px;">
+    <div class="status-card">
       <div id="msgs">Memulai Instalasi Cache...</div>     
       <div class="progress-track">
         <div id="pbar" class="progress-bar pbar-low"></div>
@@ -91,7 +91,6 @@ function DisplayCacheProgress() {
         bar.className = "progress-bar pbar-success";
     }
     setTimeout(function() {
-        // Menggunakan replace agar menimpa halaman saat ini tanpa membuat riwayat/jendela baru
         window.location.replace("index.html");
     }, 1500);
 }
