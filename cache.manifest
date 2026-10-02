@@ -1,0 +1,26 @@
+CACHE MANIFEST 
+
+CACHE:
+logo.png
+apache.css
+goldhen_2.4b18.12.bin
+index.html
+chain_lapse.js
+chain_poops.js
+core.js?v=10
+core.js
+int64.js
+jb.js?v=19
+mem.js
+ps4_offsets.js
+rpc_worker.js
+patches\1150.bin
+patches\1200.bin
+patches\1250.bin
+patches\1300.bin
+patches\1302.bin
+patches\1350.bin
+patches\1352.bin
+
+NETWORK:
+*
