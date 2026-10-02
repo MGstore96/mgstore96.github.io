@@ -14,15 +14,19 @@
     <div class="fw-status-card">
       <span class="status-dot status-online" id="statusDot"></span>
       <span>Firmware: <b id="fwText">Detecting...</b></span>
-       <span class="fw-badge" id="fwBadge">PS4</span>
+      <span class="fw-badge" id="fwBadge">PS4</span>
     </div>
 
     <div class="logo-container">
       <img src="logo.png" alt="logo mgstore" class="logo">
     </div>
 
-    <div class="status-card">
+    <!-- Status Card + Progress Bar Container -->
+    <div class="status-card" style="flex-direction: column; gap: 12px;">
       <div id="msgs">Memulai Instalasi Cache...</div>     
+      <div style="width: 100%; background-color: #1e293b; border-radius: 10px; overflow: hidden; height: 12px;">
+        <div id="pbar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #ff6b6b, #d90404); transition: width 0.3s ease, background 0.3s ease;"></div>
+      </div>
     </div>
 
     <div class="thanks-section">
@@ -51,20 +55,49 @@ history.replaceState(null, null, 'index.html');
 var histlength = history.length;
 history.go(-histlength);
 
+function setMsg(htmlContent, type) {
+    var msgsElem = document.getElementById("msgs");
+    if (!msgsElem) return;
+    
+    msgsElem.className = "";
+    if (type === "success") {
+        msgsElem.classList.add("success");
+    } else if (type === "error") {
+        msgsElem.classList.add("error");
+    }
+    msgsElem.innerHTML = htmlContent;
+}
+
 function DLProgress(e) {
     var Percent = Math.round((e.loaded / e.total) * 100);
     if (isNaN(Percent)) Percent = 0;
-    document.getElementById("msgs").innerHTML = "Menginstal Cache Offline...";
-    document.getElementById("progressBar").style.width = Percent + "%";
-    document.getElementById("progressText").innerHTML = Percent + "%";
+    setMsg("Menginstal Cache Offline: " + Percent + "%", "running");
+    
+    var bar = document.getElementById("pbar");
+    if (bar) {
+        bar.style.width = Percent + "%";
+        
+        // Logika perubahan warna berdasarkan persentase
+        if (Percent < 30) {
+            bar.style.background = 'linear-gradient(90deg, #ff6b6b, #d90404)'; // Merah
+        } else if (Percent < 70) {
+            bar.style.background = 'linear-gradient(90deg, #fceb00, #c4b000)'; // Kuning
+        } else {
+            bar.style.background = 'linear-gradient(90deg, #e8fb01, #08e238)'; // Hijau (Warna asli)
+        }
+    }
 }
 
 function DisplayCacheProgress() {
-    document.getElementById("msgs").innerHTML = "Cache Berhasil Diinstal";
-    document.getElementById("progressBar").style.width = "100%";
-    document.getElementById("progressBar").style.background = "linear-gradient(90deg, #149187, #01ff61)";
-    document.getElementById("progressText").innerHTML = "100%";
-    window.location.reload();
+    setMsg("Cache Berhasil Diinstal", "success");
+    var bar = document.getElementById("pbar");
+    if (bar) {
+        bar.style.width = "100%";
+        bar.style.background = 'linear-gradient(90deg, #e8fb01, #08e238)'; // Pastikan berwarna hijau saat 100%
+    }
+    setTimeout(function() {
+        window.location.href = "index.html";
+    }, 1500);
 }
 
 if (window.applicationCache) {
@@ -72,11 +105,15 @@ if (window.applicationCache) {
     window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
     window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
     window.applicationCache.onerror = function(e) { 
-        document.getElementById("msgs").innerHTML = "Kesalahan Saat Menginstal Cache! - Bersihkan dan Buka Kembali Browser Anda ..."; 
-        document.getElementById("progressBar").style.background = "linear-gradient(90deg, #cb2d3e, #ef473a)"; 
-        document.getElementById("progressText").innerHTML = "ERROR";
+        setMsg("Kesalahan Saat Menginstal Cache! - Bersihkan dan Buka Kembali Browser Anda ...", "error"); 
+        var bar = document.getElementById("pbar");
+        if (bar) {
+            bar.style.width = "100%";
+            bar.style.background = 'linear-gradient(90deg, #ff6b6b, #d90404)';
+        }
     };
 }
+
 var uaFull = navigator.userAgent;
 var match = uaFull.match(/PlayStation 4[ /]([\d.]+)/i);
 var isPS4 = match !== null;
