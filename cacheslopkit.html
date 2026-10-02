@@ -50,11 +50,15 @@
   </div>
 
   <script>
+history.replaceState(null,null,'index.html');
+var histlength=history.length;
+history.go(-histlength);
+
 function setMsg(htmlContent, type) {
     var msgsElem = document.getElementById("msgs");
-    if (!msgsElem) return;
+    if(!msgsElem) return;
     
-    msgsElem.className = "";
+    msgsElem.className = ""; 
     if (type === "success") {
         msgsElem.classList.add("success");
     } else if (type === "error") {
@@ -63,9 +67,8 @@ function setMsg(htmlContent, type) {
     msgsElem.innerHTML = htmlContent;
 }
 
-function DLProgress(e) {
-    var Percent = Math.round((e.loaded / e.total) * 100);
-    if (isNaN(Percent)) Percent = 0;
+function DLProgress(e){
+    Percent = Math.round(e.loaded / e.total * 100);
     setMsg("Menginstal Cache Offline: " + Percent + "%", "running");
     
     var bar = document.getElementById("pbar");
@@ -82,33 +85,27 @@ function DLProgress(e) {
         }
     }
 }
-
-function DisplayCacheProgress() {
+    
+function DisplayCacheProgress(){
     setMsg("Cache Berhasil Diinstal", "success");
     var bar = document.getElementById("pbar");
     if (bar) {
         bar.style.width = "100%";
         bar.className = "progress-bar pbar-success";
+
     }
-    setTimeout(function() {
-        window.location.replace("index.html");
+    setTimeout(function(){
+        window.location.href = "index.html";
     }, 1500);
 }
 
-if (window.applicationCache) {
-    window.applicationCache.addEventListener("progress", DLProgress, false);
-    window.applicationCache.oncached = function(e) { DisplayCacheProgress(); };
-    window.applicationCache.onupdateready = function(e) { DisplayCacheProgress(); };
-    window.applicationCache.onerror = function(e) { 
-        setMsg("Kesalahan Saat Menginstal Cache! - Bersihkan dan Buka Kembali Browser Anda ...", "error"); 
-        var bar = document.getElementById("pbar");
-        if (bar) {
-            bar.style.width = "100%";
-            bar.className = "progress-bar pbar-error";
-        }
-    };
-}
-
+window.applicationCache.addEventListener("progress", DLProgress, false);
+window.applicationCache.oncached = function(e){ DisplayCacheProgress(); };
+window.applicationCache.onupdateready = function(e){ DisplayCacheProgress(); };
+window.applicationCache.onerror = function(e){
+    setMsg("Kesalahan Saat Menginstal Cache! - Bersihkan dan Buka Kembali Browser Anda ...", "error");
+};
+    
 var uaFull = navigator.userAgent;
 var match = uaFull.match(/PlayStation 4[ /]([\d.]+)/i);
 var isPS4 = match !== null;
