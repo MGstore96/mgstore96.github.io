@@ -50,10 +50,6 @@
   </div>
 
   <script>
-history.replaceState(null, null, 'index.html');
-var histlength = history.length;
-history.go(-histlength);
-
 function setMsg(htmlContent, type) {
     var msgsElem = document.getElementById("msgs");
     if (!msgsElem) return;
@@ -95,7 +91,8 @@ function DisplayCacheProgress() {
         bar.className = "progress-bar pbar-success";
     }
     setTimeout(function() {
-        window.location.href = "index.html";
+        // Menggunakan replace agar menimpa halaman saat ini tanpa membuat riwayat/jendela baru
+        window.location.replace("index.html");
     }, 1500);
 }
 
