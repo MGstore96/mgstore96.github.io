@@ -82,11 +82,11 @@
         }, false);
 
         appCache.addEventListener('cached', function() {
-            setMsg("Cache Berhasil Disimpan! Mengalihkan dalam 2 detik...", "success");
+            setMsg("Cache Berhasil Disimpan!...", "success");
             setTimeout(function() {
                 // Kembalikan ke file HTML utama kamu
-                window.location.replace("Pecobaan_2.html");
-            }, 2000);
+                window.location.replace("index.html");
+            }, 1000);
         }, false);
 
         appCache.addEventListener('noupdate', function() {
