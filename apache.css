@@ -202,7 +202,7 @@ h2 {
 
 .msg-lapse {
   color: #b003fe;
-  text-shadow: white;
+  text-shadow: 1px 1px 2px hwb(0 100% 0%);
   font-weight: 600;
   animation: pulse 1.5s infinite;
 }
@@ -236,6 +236,7 @@ h2 {
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: #ff0000;
+  text-shadow: 1px 1px 2px hwb(0 100% 0%);;
   margin-bottom: 16px;
 }
 
