@@ -18,18 +18,46 @@ body {
   padding: 20px 15px;
 }
 
+/* Container disesuaikan dengan cache.css & dikombinasikan dengan RGB Glow */
 .container {
   width: 100%;
-  max-width: 620px;
-  background: rgba(22, 30, 46, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 2px solid rgb(7, 229, 201);
+  max-width: 550px;
+  padding: 30px;
+  background: #0a0a0a;
   border-radius: 20px;
-  padding: 28px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5),
-              0 0 30px rgba(56, 189, 248, 0.05);
   text-align: center;
+  animation: rgbGlow 3s linear infinite;
+}
+
+@keyframes rgbGlow {
+    0% {
+        border: 3px solid #ff0000;
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.3), inset 0 0 20px rgba(255, 0, 0, 0.2);
+    }
+    17% {
+        border: 3px solid #ffff00;
+        box-shadow: 0 0 15px rgba(255, 255, 0, 0.8), 0 0 40px rgba(255, 255, 0, 0.3), inset 0 0 20px rgba(255, 255, 0, 0.2);
+    }
+    33% {
+        border: 3px solid #00ff00;
+        box-shadow: 0 0 15px rgba(0, 255, 0, 0.8), 0 0 40px rgba(0, 255, 0, 0.3), inset 0 0 20px rgba(0, 255, 0, 0.2);
+    }
+    50% {
+        border: 3px solid #00ffff;
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.8), 0 0 40px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.2);
+    }
+    67% {
+        border: 3px solid #0000ff;
+        box-shadow: 0 0 15px rgba(0, 0, 255, 0.8), 0 0 40px rgba(0, 0, 255, 0.3), inset 0 0 20px rgba(0, 0, 255, 0.2);
+    }
+    83% {
+        border: 3px solid #ff00ff;
+        box-shadow: 0 0 15px rgba(255, 0, 255, 0.8), 0 0 40px rgba(255, 0, 255, 0.3), inset 0 0 20px rgba(255, 0, 255, 0.2);
+    }
+    100% {
+        border: 3px solid #ff0000;
+        box-shadow: 0 0 15px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.3), inset 0 0 20px rgba(255, 0, 0, 0.2);
+    }
 }
 
 hr {
@@ -184,20 +212,20 @@ h2 {
 }
 
 .progress-bar.pbar-low {
-  background: linear-gradient(90deg, #ff6b6b, #d90404); /* Merah (< 30%) */
+  background: linear-gradient(90deg, #ff6b6b, #d90404);
 }
 
 .progress-bar.pbar-mid {
-  background: linear-gradient(90deg, #fceb00, #c4b000); /* Kuning (< 70%) */
+  background: linear-gradient(90deg, #fceb00, #c4b000);
 }
 
 .progress-bar.pbar-high,
 .progress-bar.pbar-success {
-  background: linear-gradient(90deg, #e8fb01, #08e238); /* Hijau (>= 70% / Selesai) */
+  background: linear-gradient(90deg, #e8fb01, #08e238);
 }
 
 .progress-bar.pbar-error {
-  background: linear-gradient(90deg, #ff6b6b, #d90404); /* Merah Error */
+  background: linear-gradient(90deg, #ff6b6b, #d90404);
 }
 
 .msg-lapse {
@@ -224,10 +252,11 @@ h2 {
   50% { opacity: 0.5; }
 }
 
-
+/* Bagian Terima Kasih Sesuai cache.css */
 .thanks-section {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 22px;
+  width: 100%;
 }
 
 .thanks-section h3 {
@@ -236,7 +265,7 @@ h2 {
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: #ff0000;
-  text-shadow: 1px 1px 2px hwb(0 100% 0%);;
+  text-shadow: 1px 1px 2px hwb(0 100% 0%);
   margin-bottom: 16px;
 }
 
