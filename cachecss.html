@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id" manifest="cachecss.manifest">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7.00 - 13.52 Webkit by MGstore</title>
+  <link rel="stylesheet" href="apache.css">
+</head>
+<body>
+  <div class="container">
+    <hr style="width: 100%;">
+    <h2>Webkit by MGstore</h2>
+
+    <div class="fw-status-card">
+      <span class="status-dot" id="statusDot"></span>
+      <span>Firmware <b id="fwText">detecting </b></span>
+      <span class="fw-badge" id="fwBadge">PS4</span>
+    </div>
+
+    <div class="logo-container">
+      <img src="logo.png" alt="logo mgstore" class="logo">
+    </div>
+
+    <div class="status-card">
+      <div id="msgs">Memulai Instalasi Cache...</div>     
+      <div class="progress-track">
+        <div id="pbar" class="progress-bar pbar-low"></div>
+      </div>
+    </div>
+
+    <div class="thanks-section">
+      <h3>terima kasih kepada</h3>
+      <div class="credit-list">
+        <span class="credit-item">GamerHack93</span>
+        <span class="credit-item">sleirsgoevy</span>
+        <span class="credit-item">TheFlow</span>
+        <span class="credit-item">Flatz</span>
+        <span class="credit-item">Egycnq</span>
+        <span class="credit-item">Jordy</span>
+        <span class="credit-item">Sonic-Iso</span>
+        <span class="credit-item">Abc</span>
+        <span class="credit-item">Prb29327239</span>
+        <span class="credit-item">Feyzee61</span>
+        <span class="credit-item">AlAzif</span>
+        <span class="credit-item">ChendoChap</span>
+        <span class="credit-item">Kameleonre_</span>
+        <span class="credit-item">SiSTR0</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+history.replaceState(null, null, 'index.html');
+var histlength = history.length;
+history.go(-histlength);
+
+var uaFull = navigator.userAgent;
+var match = uaFull.match(/PlayStation 4[ /]([\d.]+)/i);
+var isPS4 = match !== null;
+var fwVersion = isPS4 ? match[1] : "Unknown";
+var fwNum = parseFloat(fwVersion);
+
+function setMsg(htmlContent, type) {
+    var msgsElem = document.getElementById("msgs");
+    if(!msgsElem) return;
+    
+    msgsElem.className = "";
+    if (type === "success") {
+        msgsElem.classList.add("success");
+    } else if (type === "error") {
+        msgsElem.classList.add("error");
+    }
+    msgsElem.innerHTML = htmlContent;
+}
+
+function updateFWStatus() {
+    var fwText = document.getElementById("fwText");
+    var statusDot = document.getElementById("statusDot");
+    var fwBadge = document.getElementById("fwBadge");
+
+    if (isPS4) {
+        fwText.innerHTML = fwVersion;
+        var isSupported = (fwNum == 5.05 || fwNum == 5.07 || (fwNum >= 7.00 && fwNum <= 13.52));
+        
+        if (isSupported) {
+            statusDot.className = "status-dot status-online";
+            fwBadge.className = "fw-badge supported";
+            fwBadge.innerText = "SUPPORTED";
+            fwText.className = "fw-text-supported";
+        } else {
+            statusDot.className = "status-dot status-offline";
+            fwBadge.className = "fw-badge unsupported";
+            fwBadge.innerText = "UNSUPPORTED";
+            fwText.className = "fw-text-unsupported";
+        }
+    } else {
+        fwText.innerHTML = "BUKAN PS4";
+        statusDot.className = "status-dot status-offline";
+        fwBadge.className = "fw-badge pc-mobile";
+        fwBadge.innerText = "PC / MOBILE";
+        fwText.className = "fw-text-unsupported";
+    }
+}
+
+function DLProgress(e){
+    var Percent = Math.round(e.loaded / e.total * 100);
+    setMsg("Menginstal Cache Offline: " + Percent + "%", "running");
+    
+    var bar = document.getElementById("pbar");
+    if (bar) {
+        bar.style.width = Percent + "%";
+        
+        bar.className = "progress-bar";
+        if (Percent < 30) {
+            bar.classList.add("pbar-low");
+        } else if (Percent < 70) {
+            bar.classList.add("pbar-mid");
+        } else {
+            bar.classList.add("pbar-high");
+        }
+    }
+}
+    
+function DisplayCacheProgress(){
+    setMsg("Cache Berhasil Diinstal", "success");
+    var bar = document.getElementById("pbar");
+    if (bar) {
+        bar.style.width = "100%";
+        bar.className = "progress-bar pbar-success";
+    }
+    setTimeout(function(){
+        window.location.href = "index.html";
+    }, 1500);
+}
+
+if (window.applicationCache) {
+    window.applicationCache.addEventListener("progress", DLProgress, false);
+    window.applicationCache.oncached = function(e){ DisplayCacheProgress(); };
+    window.applicationCache.onupdateready = function(e){ DisplayCacheProgress(); };
+    window.applicationCache.onerror = function(e){
+        setMsg("Kesalahan Saat Menginstal Cache! - Bersihkan dan Buka Kembali Browser Anda ...", "error");
+    };
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    updateFWStatus();
+  
+    if (!isPS4) {
+        setMsg("Hanya Untuk PS4 Firmware 7.00 sampai 13.52", "error");
+        return;
+    }
+});
+</script>
+
+</body>
+</html>
