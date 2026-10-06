@@ -20,7 +20,7 @@ body {
 
 hr {
   border: none;
-  height: 1px;
+  height: 3px;
   background: linear-gradient(90deg, transparent, rgb(15, 216, 255), transparent);
   margin-bottom: 20px;
 }
