@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>7.00 - 13.52 Webkit by MGstore</title>
-<link rel="stylesheet" href="apache.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -47,14 +47,12 @@ function DisplayCacheProgress(){
     }, 1500);
 }
 
-if (window.applicationCache) {
-    window.applicationCache.addEventListener("progress", DLProgress, false);
-    window.applicationCache.oncached = function(e){ DisplayCacheProgress(); };
-    window.applicationCache.onupdateready = function(e){ DisplayCacheProgress(); };
-    window.applicationCache.onerror = function(e){
-        setMsg("Kesalahan Saat Menginstal Cache! - Bersihkan dan Buka Kembali Browser Anda ...", "error");
-    };
-}
+window.applicationCache.addEventListener("progress", DLProgress, false);
+window.applicationCache.oncached = function(e){ DisplayCacheProgress(); };
+window.applicationCache.onupdateready = function(e){ DisplayCacheProgress(); };
+window.applicationCache.onerror = function(e){
+    setMsg("Kesalahan Saat Menginstal Cache! - Bersihkan dan Buka Kembali Browser Anda ...", "error");
+};
 </script>
 
 <div class="container">
@@ -62,7 +60,7 @@ if (window.applicationCache) {
         <img src="logo.png" alt="Logo MGstore" class="logo">
     </div>
 
-    <div class="header-title">Webkit By MG Store</div>
+    <div class="header-title">Webkit By MG Store
     
     <div class="status-card">
         <div id="msgs">Memulai Instalasi Cache...</div>
