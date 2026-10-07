@@ -1,135 +1,60 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" manifest="css.manifest">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>7.00 - 13.52 Webkit by MGstore</title>
-  <link rel="stylesheet" href="apache.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7.00 - 13.52 Webkit by MGstore</title>
+<link rel="stylesheet" href="apache.css">
 </head>
 <body>
+
 <script>
-history.replaceState(null, null, 'index.html');
-var histlength = history.length;
+history.replaceState(null,null,'index.html');
+var histlength=history.length;
 history.go(-histlength);
-
-var uaFull = navigator.userAgent;
-var match = uaFull.match(/PlayStation 4[ /]([\d.]+)/i);
-var isPS4 = match !== null;
-var fwVersion = isPS4 ? match[1] : "Unknown";
-var fwNum = parseFloat(fwVersion);
-
-function closePS4Browser() {
-    setTimeout(function() {
-        try {
-            window.location.href = "about:blank";
-            window.close();
-        } catch(e) {
-            window.close();
-        }
-    }, 4000);
-}
 
 function setMsg(htmlContent, type) {
     var msgsElem = document.getElementById("msgs");
     if(!msgsElem) return;
     
-    msgsElem.className = "";
+    msgsElem.className = ""; 
     if (type === "success") {
         msgsElem.classList.add("success");
-        closePS4Browser();
     } else if (type === "error") {
         msgsElem.classList.add("error");
     }
     msgsElem.innerHTML = htmlContent;
 }
 
-function onScriptError() {
-    setMsg("Konten Tidak Ditemukan! - Hapus Data Browser dan Muat Ulang Cache ...", "error");
+function DLProgress(e){
+    Percent = Math.round(e.loaded / e.total * 100);
+    setMsg("Menginstal Cache Offline: " + Percent + "%", "running");
+    
+    var bar = document.getElementById("pbar");
+    if (bar) {
+        bar.style.width = Percent + "%";
+    }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    if (!isPS4) {
-        setMsg("Hanya Untuk PS4 Firmware 7.00 sampai 13.52", "error");
-        return;
+function DisplayCacheProgress(){
+    setMsg("Cache Berhasil Diinstal", "success");
+    var bar = document.getElementById("pbar");
+    if (bar) {
+        bar.style.width = "100%";
     }
+    setTimeout(function(){
+        window.location.href = "index.html";
+    }, 1500);
+}
 
-    if (window.applicationCache && window.applicationCache.status == '0') {
-        if (fwNum == 5.05 || fwNum == 5.07) {
-            window.location.replace("cache505.html");
-            return;
-        } else if (fwNum >= 7.00 && fwNum <= 8.52) {
-            window.location.replace("cache700.html");
-            return;
-        } else if (fwNum >= 9.00 && fwNum <= 9.60) {
-            window.location.replace("cache900.html");
-            return;
-        } else if (fwNum >= 10.00 && fwNum <= 11.02) {
-            window.location.replace("cachecss.html");
-            return;
-        } else if (fwNum >= 11.50 && fwNum <= 13.52) {
-            window.location.replace("cacheslopkit.html");
-            return;
-        } else {
-            setMsg('Unsupported Firmware: <span style="color: red;">' + fwVersion + '</span>', "error");
-            return;
-        }
-    }
-
-    if (fwNum == 5.05 || fwNum == 5.07) {
-        var script = document.createElement('script');
-        script.src = "505/exploit.js";
-        script.onerror = onScriptError;
-        document.head.appendChild(script);
-    }
-    else if (fwNum >= 7.00 && fwNum <= 8.52) {
-        var script = document.createElement('script');
-        script.type = 'module';
-        script.src = "700/alert.js";
-        script.onerror = onScriptError;
-        document.head.appendChild(script);
-    }
-    else if (fwNum >= 9.00 && fwNum <= 9.60) {
-        var script = document.createElement('script');
-        script.type = 'module';
-        script.src = "900/alert.js";
-        script.onerror = onScriptError;
-        document.head.appendChild(script);
-    }
-    else if (fwNum >= 10.00 && fwNum <= 11.02) {
-        var script = document.createElement('script');
-        script.src = "css/main.js";
-        script.onerror = onScriptError;
-        script.onload = function () {
-            setTimeout(function () {
-                if (typeof doJb === "function") doJb();
-            }, 500);
-        };
-        document.head.appendChild(script);
-    }
-    else if (fwNum >= 11.50 && fwNum <= 12.02) {
-        var script = document.createElement('script');
-        script.type = 'module';
-        script.src = "slopkit/chain_lapse.js";
-        script.onerror = onScriptError;
-        document.head.appendChild(script);
-    }
-    else if (fwNum >= 12.50 && fwNum <= 13.00) {
-        var script = document.createElement('script');
-        script.type = 'module';
-        script.src = "slopkit/chain_poops.js";
-        script.onerror = onScriptError;
-        document.head.appendChild(script);
-    }
-    else if (fwNum >= 13.02 && fwNum <= 13.52) {
-        var script = document.createElement('script');
-        script.type = 'module';
-        script.src = "slopkit/jb.js?v=19";
-        script.onerror = onScriptError;
-        document.head.appendChild(script);
-    } else {
-        setMsg('Firmware tidak didukung: <span style="color: red;">' + fwVersion + '</span>', "error");
-    }
-});
+if (window.applicationCache) {
+    window.applicationCache.addEventListener("progress", DLProgress, false);
+    window.applicationCache.oncached = function(e){ DisplayCacheProgress(); };
+    window.applicationCache.onupdateready = function(e){ DisplayCacheProgress(); };
+    window.applicationCache.onerror = function(e){
+        setMsg("Kesalahan Saat Menginstal Cache! - Bersihkan dan Buka Kembali Browser Anda ...", "error");
+    };
+}
 </script>
 
 <div class="container">
@@ -140,11 +65,14 @@ document.addEventListener("DOMContentLoaded", function() {
     <div class="header-title">Webkit By MG Store</div>
     
     <div class="status-card">
-        <div id="msgs">Sedang Memuat GoldHEN... Mohon Tunggu</div>
+        <div id="msgs">Memulai Instalasi Cache...</div>
+        <div class="progress-container">
+            <div id="pbar" class="progress-bar"></div>
+        </div>
     </div>
 
     <div class="thanks-section">
-        <h3>Special Thanks to:</h3>
+        <h3>TERIMA KASIH KEPADA:</h3>
         <div class="credits-list">
             <span class="credit-item">GamerHack93</span>
             <span class="credit-item">sleirsgoevy</span>
