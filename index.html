@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -51,7 +52,18 @@ var match = uaFull.match(/PlayStation 4[ /]([\d.]+)/i);
 var isPS4 = match !== null;
 var fwVersion = isPS4 ? match[1] : "Unknown";
 var fwNum = parseFloat(fwVersion);
-var autoTimer = null;
+
+function closePS4Browser() {
+    setTimeout(function() {
+        try {
+            window.location.href = "about:blank";
+            window.close();
+        } catch(e) {
+            window.close();
+        }
+    }, 4000);
+}
+
 function setMsg(htmlContent, type) {
     var msgsElem = document.getElementById("msgs");
     if(!msgsElem) return;
@@ -59,6 +71,7 @@ function setMsg(htmlContent, type) {
     msgsElem.className = "";
     if (type === "success") {
         msgsElem.classList.add("success");
+        closePS4Browser();
     } else if (type === "error") {
         msgsElem.classList.add("error");
     }
@@ -68,68 +81,8 @@ function setMsg(htmlContent, type) {
 function onScriptError() {
     setMsg("Konten Tidak Ditemukan! - Hapus Data Browser dan Muat Ulang Cache ...", "error");
 }
-function loadExploit() {
-    var msgs = document.getElementById("msgs");
-    
-    if (fwNum == 5.05 || fwNum == 5.07) {
-        var script = document.createElement('script');
-        script.src = "505/exploit.js";
-        script.onerror = onScriptError;
-        document.head.appendChild(script);
-    }
-    else if (fwNum >= 7.00 && fwNum <= 8.52) {
-        var script = document.createElement('script');
-        script.type = 'module';
-        script.src = "700/alert.js";
-        script.onerror = onScriptError;
-        document.head.appendChild(script);
-    }
-    else if (fwNum >= 9.00 && fwNum <= 9.60) {
-        var script = document.createElement('script');
-        script.type = 'module';
-        script.src = "900/alert.js";
-        script.onerror = onScriptError;
-        document.head.appendChild(script);
-    }
-    else if (fwNum >= 10.00 && fwNum <= 11.02) {
-        var script = document.createElement('script');
-        script.src = "css/main.js";
-        script.onerror = onScriptError;
-        script.onload = function () {
-            setTimeout(function () {
-                if (typeof doJb === "function") doJb();
-            }, 500);
-        };
-        document.head.appendChild(script);
-    }
-    else if (fwNum >= 11.50 && fwNum <= 12.02) {
-        msgs.innerHTML ='<span class="msg-lapse">Menjalankan Lapse Kernel...</span>';
-        var script = document.createElement('script');
-        script.type = 'module';
-        script.src = "slopkit/chain_lapse.js";
-        script.onerror = onScriptError;
-        document.head.appendChild(script);
-    }
-    else if (fwNum >= 12.50 && fwNum <= 13.00) {
-        msgs.innerHTML ='<span class="msg-poops">Menjalankan PoopsPloit...</span>';
-        var script = document.createElement('script');
-        script.type = 'module';
-        script.src = "slopkit/chain_poops.js";
-        script.onerror = onScriptError;
-        document.head.appendChild(script);
-    }
-    else if (fwNum >= 13.02 && fwNum <= 13.52) {
-        msgs.innerHTML ='<span class="msg-relapse">Menjalankan Exploit Relapse...</span>';
-        var script = document.createElement('script');
-        script.type = 'module';
-        script.src = "slopkit/jb.js?v=19";
-        script.onerror = onScriptError;
-        document.head.appendChild(script);
-    } else {
-        setMsg('Firmware tidak didukung: <span style="color: red;">' + fwVersion + '</span>', "error");
-    }
-}
-    function updateFWStatus() {
+
+function updateFWStatus() {
     var fwText = document.getElementById("fwText");
     var statusDot = document.getElementById("statusDot");
     var fwBadge = document.getElementById("fwBadge");
@@ -188,7 +141,58 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    loadExploit();
+    if (fwNum == 5.05 || fwNum == 5.07) {
+        var script = document.createElement('script');
+        script.src = "505/exploit.js";
+        script.onerror = onScriptError;
+        document.head.appendChild(script);
+    }
+    else if (fwNum >= 7.00 && fwNum <= 8.52) {
+        var script = document.createElement('script');
+        script.type = 'module';
+        script.src = "700/alert.js";
+        script.onerror = onScriptError;
+        document.head.appendChild(script);
+    }
+    else if (fwNum >= 9.00 && fwNum <= 9.60) {
+        var script = document.createElement('script');
+        script.type = 'module';
+        script.src = "900/alert.js";
+        script.onerror = onScriptError;
+        document.head.appendChild(script);
+    }
+    else if (fwNum >= 10.00 && fwNum <= 11.02) {
+        var script = document.createElement('script');
+        script.src = "css/main.js";
+        script.onerror = onScriptError;
+        script.onload = function () {
+            setTimeout(function () {
+                if (typeof doJb === "function") doJb();
+            }, 500);
+        };
+        document.head.appendChild(script);
+    }
+    else if (fwNum >= 11.50 && fwNum <= 12.02) {
+        var script = document.createElement('script');
+        script.type = 'module';
+        script.src = "slopkit/chain_lapse.js";
+        script.onerror = onScriptError;
+        document.head.appendChild(script);
+    }
+    else if (fwNum >= 12.50 && fwNum <= 13.00) {
+        var script = document.createElement('script');
+        script.type = 'module';
+        script.src = "slopkit/chain_poops.js";
+        script.onerror = onScriptError;
+        document.head.appendChild(script);
+    }
+    else if (fwNum >= 13.02 && fwNum <= 13.52) {
+        var script = document.createElement('script');
+        script.type = 'module';
+        script.src = "slopkit/jb.js?v=19";
+        script.onerror = onScriptError;
+        document.head.appendChild(script);
+    }
 });
 </script>
 
