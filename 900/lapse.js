@@ -1830,7 +1830,7 @@ function runPayload(PLfile) {
 
 kexploit().then(() => {
 	setTimeout(() => {
-		runPayload("./goldhen_2.4b18.12.bin");
+		runPayload("./goldhen_2.4b18.13.bin");
 		msgs.innerHTML ='<span style="color: #10e610;">GoldHEN Berhasil Dimuat ...</span>';
 	},500);
 }).catch(() => {
