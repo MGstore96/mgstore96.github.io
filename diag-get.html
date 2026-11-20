@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="id"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Diagnostik GET Cache MG Store - GitHub Pages</title>
+<style>body{background:#111;color:#eee;font:14px monospace;padding:16px}h2{color:#7f7}pre{white-space:pre-wrap;word-break:break-word}.ok{color:#7f7}.bad{color:#f77}</style>
+<h2>Diagnostik GET File Cache MG Store</h2>
+<p>Halaman ini benar-benar mengunduh isi setiap file satu per satu. Jangan tutup halaman sampai selesai.</p>
+<pre id="out">Memulai...</pre>
+<script>
+var files=[
+"prolapse.manifest","logo.png","apache.css","goldhen_2.4b18.14.bin","index.html",
+"slopkit/afterglow.js","slopkit/chain_lapse.js","slopkit/chain_poops.js","slopkit/core.js?v=10","slopkit/core.js",
+"slopkit/int64.js","slopkit/jb.js?v=19","slopkit/jb2.js","slopkit/mem.js","slopkit/ps4_offsets.js","slopkit/rpc_worker.js",
+"slopkit/patches/1150.bin","slopkit/patches/1200.bin","slopkit/patches/1250.bin","slopkit/patches/1300.bin","slopkit/patches/1302.bin","slopkit/patches/1350.bin","slopkit/patches/1352.bin","slopkit/patches/1400.bin","slopkit/patches/1402.bin"
+];
+var out=document.getElementById("out"),i=0,failed=0;
+function line(s,cls){var n=document.createElement("span");n.className=cls||"";n.appendChild(document.createTextNode(s+"\n"));out.appendChild(n);}
+function next(){
+ if(i>=files.length){line("SELESAI. Total gagal: "+failed+". Kirim foto/video hasil halaman ini.","ok");return;}
+ var f=files[i++],x=new XMLHttpRequest(),done=false;
+ line("Mengunduh "+f+" ...");
+ function finish(ok,msg){if(done)return;done=true;if(!ok)failed++;line((ok?"OK ":"GAGAL ")+f+" | "+msg,ok?"ok":"bad");next();}
+ x.open("GET",f,true);x.responseType="arraybuffer";x.timeout=30000;
+ x.onload=function(){var size=x.response&&x.response.byteLength!==undefined?x.response.byteLength:0;var ct=x.getResponseHeader("Content-Type")||"tanpa Content-Type";var cc=x.getResponseHeader("Cache-Control")||"(tidak ada)",etag=x.getResponseHeader("ETag")||"(tidak ada)",cl=x.getResponseHeader("Content-Length")||"(tidak ada)";var extra=" | Cache-Control: "+cc+" | ETag: "+etag+" | Content-Length: "+cl;if(f==="prolapse.manifest"&&x.response){var b=new Uint8Array(x.response),sample="";for(var j=0;j<Math.min(b.length,160);j++)sample+=String.fromCharCode(b[j]);extra+=" | Awal manifest: "+sample.replace(/\r/g,"\\r").replace(/\n/g,"\\n");}finish(x.status>=200&&x.status<300&&size>0,"HTTP "+x.status+" | "+size+" byte | "+ct+extra);};
+ x.onerror=function(){finish(false,"ERROR jaringan");};
+ x.ontimeout=function(){finish(false,"TIMEOUT 30 detik");};
+ try{x.send();}catch(e){finish(false,"EXCEPTION "+e);}
+}
+next();
+</script></html>
