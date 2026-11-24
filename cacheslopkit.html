@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" manifest="slopkit.manifest">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7.00- 14.02 Webkit by MGstore</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<script>
+history.replaceState(null, null, 'index.html');
+var histlength = history.length;
+history.go(-histlength);
+
+function DLProgress(e) {
+  Percent = (Math.round(e.loaded / e.total * 100));
+  window.msgs.innerHTML = "Menginstal Cache Offline: " + Percent + "%";
+}
+
+function DisplayCacheProgress() {
+  window.msgs.innerHTML = "Cache Berhasil Diinstal";
+  setTimeout(function () {
+    window.location.replace("index.html");
+  }, 1500);
+}
+
+window.applicationCache.addEventListener("progress", DLProgress, false);
+window.applicationCache.oncached = function (e) { DisplayCacheProgress(); };
+window.applicationCache.onupdateready = function (e) { DisplayCacheProgress(); };
+window.applicationCache.onerror = function (e) {
+  window.msgs.innerHTML = "Kesalahan Saat Menginstal Cache! - Bersihkan dan Buka Kembali Browser Anda ...";
+};
+</script>
+
+<div class="card">
+  <div class="logo-wrapper">
+    <img src="logo.png" alt="MG Store Logo" class="logo-img">
+  </div>
+
+  <div class="badge">FW 7.00 – 14.02</div>
+  <h1 class="title">Webkit AfterGlow by MGstore</h1>
+  <hr class="divider">
+
+  <div class="status-box">
+    <div id="msgs">Memulai Instalasi Cache...</div>
+  </div>
+
+  <div class="thanks-section">
+    <h3>TERIMA KASIH KEPADA:</h3>
+    <div class="credits-list">
+      <span class="credit-item">GamerHack93</span>
+            <span class="credit-item">sleirsgoevy</span>
+            <span class="credit-item">TheFlow</span>
+            <span class="credit-item">Flatz</span>
+            <span class="credit-item">Egycnq</span>
+            <span class="credit-item">Jordy</span>
+            <span class="credit-item">Sonic-Iso</span>
+            <span class="credit-item">Abc</span>
+            <span class="credit-item">Ufm42</span>
+            <span class="credit-item">Prb29327239</span>
+            <span class="credit-item">Feyzee61</span>
+            <span class="credit-item">AlAzif</span>
+            <span class="credit-item">ChendoChap</span>
+            <span class="credit-item">Kameleonre_</span>
+            <span class="credit-item">SiSTR0</span
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
